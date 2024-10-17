@@ -1,10 +1,7 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import * as ReactDOM from "react-dom/client";
 
-import init, {
-  luma_image_data,
-  read_qrcodes_from_image_data,
-} from "quircs-wasm";
+import init, { QuircsWasm, luma_image_data } from "quircs-wasm";
 
 async function main() {
   let stream: MediaStream = null;
@@ -97,7 +94,10 @@ function QR_CodeReader() {
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
       const img_data = context.getImageData(0, 0, canvas.width, canvas.height);
       if (videoElement.current.srcObject) {
-        const res = read_qrcodes_from_image_data(img_data, true);
+        const res = new QuircsWasm().read_qrcodes_from_image_data(
+          img_data,
+          true
+        );
         console.log({ res });
         var context = canvasElement2.current.getContext("2d");
         context.clearRect(0, 0, canvas.width, canvas.height);

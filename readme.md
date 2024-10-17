@@ -9,15 +9,17 @@ wasm bindings for the [quircs](https://github.com/dignifiedquire/quircs) qrcode 
 ### Browser
 
 ```ts
-import init, { read_qrcodes_from_image_data } from "quircs-wasm";
+import init, { QuircsWasm } from "quircs-wasm";
 
 await init("./quircs_wasm_bg.wasm");
+
+const quircs = new QuircsWasm();
 
 var context = canvas.getContext("2d");
 // draw your image onto the canvas (from an image file or video input of a camera)
 // context.drawImage(video, 0, 0, canvas.width, canvas.height);
 const img_data = context.getImageData(0, 0, canvas.width, canvas.height);
-const res = read_qrcodes_from_image_data(img_data, true);
+const res = quircs.read_qrcodes_from_image_data(img_data, true);
 for (let qr of res) {
   if (qr.data["content"]) {
     const data = qr.data["content"];
